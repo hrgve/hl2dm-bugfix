@@ -153,8 +153,8 @@ bool CHL2MPSpectatorGUI::NeedsUpdate( void )
 
 	if ( m_nLastSpecTarget != C_BasePlayer::GetLocalPlayer()->GetObserverTarget() )
 		return true;
-
-	return BaseClass::NeedsUpdate();
+	return true;
+	//return BaseClass::NeedsUpdate();
 }
 
 
