@@ -480,12 +480,12 @@ void CHL2_Player::RemoveSuit( void )
 
 void CHL2_Player::HandleSpeedChanges( void )
 {
-	int buttonsChanged = m_afButtonPressed | m_afButtonReleased;
+	//int buttonsChanged = m_afButtonPressed | m_afButtonReleased;
 
 	bool bCanSprint = CanSprint();
 	bool bIsSprinting = IsSprinting();
 	bool bWantSprint = ( bCanSprint && IsSuitEquipped() && (m_nButtons & IN_SPEED) );
-	if ( bIsSprinting != bWantSprint && (buttonsChanged & IN_SPEED) )
+	if ( bIsSprinting != bWantSprint )
 	{
 		// If someone wants to sprint, make sure they've pressed the button to do so. We want to prevent the
 		// case where a player can hold down the sprint key and burn tiny bursts of sprint as the suit recharges
@@ -673,7 +673,7 @@ void CHL2_Player::PreThink(void)
 	else if ( IsSprinting() )
 	{
 		// Disable sprint while ducked unless we're in the air (jumping)
-		if ( IsDucked() && ( GetGroundEntity() != NULL ) )
+		if ( IsDucked() && ( GetGroundEntity() != NULL ) && !IsDucking() )
 		{
 			StopSprinting();
 		}

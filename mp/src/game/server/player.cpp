@@ -4908,7 +4908,7 @@ void CBasePlayer::Spawn( void )
 	}
 
 	SetClassname( "player" );
-
+	m_sprintHax = false;
 	// Shared spawning code..
 	SharedSpawn();
 	

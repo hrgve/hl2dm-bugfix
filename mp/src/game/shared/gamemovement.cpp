@@ -14,6 +14,7 @@
 #include "decals.h"
 #include "coordsize.h"
 #include "rumble_shared.h"
+#include "hl2mp_player.h"
 
 #if defined(HL2_DLL) || defined(HL2_CLIENT_DLL)
 	#include "hl_movedata.h"
@@ -4191,6 +4192,11 @@ void CGameMovement::FinishUnDuckJump( trace_t &trace )
 //-----------------------------------------------------------------------------
 void CGameMovement::FinishDuck( void )
 {
+	CHL2MP_Player* pPlayer = dynamic_cast<CHL2MP_Player*>( player );
+	if ( pPlayer )
+	{
+		pPlayer->SetSprintHax( pPlayer->IsSprinting() );
+	}
 	if ( player->GetFlags() & FL_DUCKING )
 		return;
 
@@ -4356,8 +4362,14 @@ void CGameMovement::Duck( void )
 	if ( IsDead() )
 		return;
 
-	// Slow down ducked players.
-	HandleDuckingSpeedCrop();
+	if ( !bInAir && ( player->GetPlayerMaxSpeed() == 320.0 ) )
+	{//emulate pre orange box update hl2dm movement
+	}
+	else
+	{
+		// Slow down ducked players.
+		HandleDuckingSpeedCrop();
+	}
 
 	// If the player is holding down the duck button, the player is in duck transition, ducking, or duck-jumping.
 	if ( ( mv->m_nButtons & IN_DUCK ) || player->m_Local.m_bDucking  || bInDuck || bDuckJump )
@@ -4482,6 +4494,7 @@ void CGameMovement::Duck( void )
 				// Check to see if we are capable of unducking.
 				if ( CanUnduck() )
 				{
+					player->SetSprintHax( false );
 					// or unducking
 					if ( ( player->m_Local.m_bDucking || player->m_Local.m_bDucked ) )
 					{
@@ -4511,7 +4524,12 @@ void CGameMovement::Duck( void )
 						SetDuckedEyeOffset(1.0f);
 						player->m_Local.m_flDucktime = GAMEMOVEMENT_DUCK_TIME;
 						player->m_Local.m_bDucked = true;
-						player->m_Local.m_bDucking = false;
+						CHL2MP_Player* pPlayer = dynamic_cast<CHL2MP_Player*>( player );
+						if ( pPlayer && pPlayer->IsSprinting() )
+						{
+							pPlayer->SetSprintHax( true );
+						}
+						player->m_Local.m_bDucking = player->GetSprintHax();
 						player->AddFlag( FL_DUCKING );
 					}
 				}
