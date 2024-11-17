@@ -72,6 +72,7 @@ CBaseCombatWeapon::CBaseCombatWeapon()
 	m_fMinRange2		= 65;
 	m_fMaxRange1		= 1024;
 	m_fMaxRange2		= 1024;
+	m_nCustomViewmodelModelIndex = -1;
 
 	m_bReloadsSingly	= false;
 
@@ -2828,8 +2829,8 @@ BEGIN_NETWORK_TABLE_NOBASE( CBaseCombatWeapon, DT_LocalWeaponData )
 	SendPropIntWithMinusOneFlag( SENDINFO(m_iClip2 ), 8 ),
 	SendPropInt( SENDINFO(m_iPrimaryAmmoType ), 8 ),
 	SendPropInt( SENDINFO(m_iSecondaryAmmoType ), 8 ),
-
 	SendPropInt( SENDINFO( m_nViewModelIndex ), VIEWMODEL_INDEX_BITS, SPROP_UNSIGNED ),
+	SendPropInt (SENDINFO( m_nCustomViewmodelModelIndex ),13),
 
 	SendPropInt( SENDINFO( m_bFlipViewModel ) ),
 

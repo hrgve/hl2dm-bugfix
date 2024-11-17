@@ -72,7 +72,9 @@ public:
 	// Is the player wearing the HEV suit
 	CNetworkVar( bool, m_bWearingSuit );
 	CNetworkVar( bool, m_bPoisoned );
+	CNetworkVar( bool, m_bForceLocalPlayerDraw );
 	CNetworkVar( float, m_flStepSize );
+	CNetworkString( m_szScriptOverlayMaterial, MAX_PATH );
 	CNetworkVar( bool, m_bAllowAutoMovement );
 
 	// 3d skybox

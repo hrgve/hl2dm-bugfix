@@ -3317,6 +3317,33 @@ void CC_CollisionTest( const CCommand &args )
 }
 static ConCommand collision_test("collision_test", CC_CollisionTest, "Tests collision system", FCVAR_CHEAT );
 
+//HAX EMPTY ENTITY - NEVER CREATE THIS
+class CPointWorldText : public CBaseEntity
+{
+public:
+    DECLARE_CLASS( CPointWorldText, CBaseEntity );
+    DECLARE_SERVERCLASS();
+    //DUMMY VALUES
+    CNetworkString( m_szText, MAX_PATH );
+    CNetworkVar( int, m_colTextColor );
+    CNetworkVar( float, m_flTextSize );
+    CNetworkVar( float, m_flTextSpacingX );
+    CNetworkVar( float, m_flTextSpacingY );
+    CNetworkVar( int, m_nOrientation );
+    CNetworkVar( short, m_nFont );
+    CNetworkVar( bool, m_bRainbow );
+};
 
+LINK_ENTITY_TO_CLASS( point_world_text, CPointWorldText );
+IMPLEMENT_SERVERCLASS_ST( CPointWorldText, DT_PointWorldText )
+	SendPropString( SENDINFO( m_szText ) ),
+	SendPropInt( SENDINFO( m_colTextColor ), 32, SPROP_UNSIGNED ),
+	SendPropFloat( SENDINFO( m_flTextSize ), 0, SPROP_NOSCALE ),
+	SendPropFloat( SENDINFO( m_flTextSpacingX ), 0, SPROP_NOSCALE ),
+	SendPropFloat( SENDINFO( m_flTextSpacingY ), 0, SPROP_NOSCALE ),
+	SendPropInt( SENDINFO( m_nOrientation ), 3, SPROP_UNSIGNED ),
+	SendPropInt( SENDINFO( m_nFont ), 16, SPROP_UNSIGNED ),
+	SendPropBool( SENDINFO( m_bRainbow ) ),
+END_SEND_TABLE()
 
 
